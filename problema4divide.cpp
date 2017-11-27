@@ -4,6 +4,7 @@
 #include <fstream>
 #include <math.h>
 #include <algorithm>
+#include <limits.h>
 
 using namespace std;
 
@@ -37,21 +38,25 @@ float DivImp(vector<iPair> Y,int l,int r){
         vector<iPair> SY,DY,LY;
         float d,d1,d2;
         cout << "ok!" << endl;
-        for(int i = 0;i <= mij;i++) SY.push_back(X[i]);
-        for(int i = mij+1;i < r;i++) DY.push_back(X[i]);
-        sort(X.begin(),X.begin()+mij+1,sort_y);
-        sort(X.begin()+mij+1,X.begin()+r,sort_y);
+        for(int i = l;i < r;i++){
+                if(Y[i].first <= X[mij].first)
+                    SY.push_back(Y[i]);
+                else
+                    DY.push_back(Y[i]);
+        }
+        //for(int i = mij+1;i < r;i++) DY.push_back(X[i]);
+        //sort(X.begin(),X.begin()+mij+1,sort_y);
+        //sort(X.begin()+mij+1,X.begin()+r,sort_y);
         d1 = DivImp(SY,l,mij+1);
         d2 = DivImp(DY,mij+1,r);
         d = min(d1,d2);
-        for(int i = 0;i < X.size();i++)
+        for(int i = 0;i < Y.size();i++)
         {
-            if(fabs(fabs(X[i].first)-fabs(mij)) <= d){
-                LY.push_back(X[i]);
+            if(fabs(fabs(Y[i].first)-fabs(mij)) <= d){
+                LY.push_back(Y[i]);
             }
         }
-        sort(LY.begin(),LY.end(),sort_y);
-        float d3 = distanta(LY[0],LY[1]);
+        float d3 = INT_MAX - 1;
         for(int i = 0;i < LY.size();i++){
             for(int j = i+1;j < LY.size();j++){
                 if(d3 > distanta(LY[i],LY[j])){
@@ -65,6 +70,7 @@ float DivImp(vector<iPair> Y,int l,int r){
     }
 
 }
+
 
 
 
